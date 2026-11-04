@@ -1,0 +1,13 @@
+# Generated synthetic data
+data/*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local environment and logs
+.env
+*.log
+.DS_Store
