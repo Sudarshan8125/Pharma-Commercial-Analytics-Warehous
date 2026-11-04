@@ -88,7 +88,7 @@ def main() -> None:
     for idx in range(1, PRESCRIBER_COUNT + 1):
         npi = f"{1000000000 + idx:010d}"
         territory_id = rng.choice(territory_ids)
-        first_seen = date(2024, 1, 1) + timedelta(days=rng.randrange(0, 730))
+        first_seen = FIRST_WEEK_ENDING + timedelta(days=7 * rng.randrange(WEEK_COUNT))
         prescribers.append({
             "npi": npi,
             "specialty": rng.choice(SPECIALTIES),
@@ -111,9 +111,10 @@ def main() -> None:
         for product in PRODUCTS:
             product_id = int(product["product_id"])
             launch_date = date.fromisoformat(str(product["launch_date"]))
+            first_seen = date.fromisoformat(str(prescriber["first_seen_date"]))
             product_factor = {1: 1.0, 2: 0.72, 3: 0.58}[product_id]
             for week_index, week_ending in enumerate(weeks):
-                if week_ending < launch_date:
+                if week_ending < max(launch_date, first_seen):
                     nrx = 0
                     trx = 0
                 else:
